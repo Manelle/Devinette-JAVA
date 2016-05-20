@@ -1,0 +1,151 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+
+public class Fin1 extends JFrame implements ActionListener{
+
+	float R=(float) Math.random()*100;
+	int R1=(int)R;
+	private static final long serialVersionUID = 1L;
+	JPanel p1 = new JPanel();
+	JPanel p2 = new JPanel();
+	Container c;
+	JButton bt_nouveau = new JButton("nouveau");
+	JButton bt_quitter= new JButton("quitter");
+	JButton bt_tester= new JButton("Tester");
+	JButton bt= new JButton("Découvrir ici votre cadeau !");
+	JLabel l1 = new JLabel(" BIENVENU DANS NOTRE APPLICATION");
+	JLabel l2 = new JLabel(" Veuillez saisir une valeur");
+	JLabel l3 = new JLabel(" Votre valeur est");
+	JLabel la4 =new JLabel(" (*) vous n'avez pas encore tester le jeu");
+	JTextField t=new JTextField(5);
+	JSeparator separe = new JSeparator();
+
+	public Fin1(){
+		
+		Font f = new Font("nahla", Font.TYPE1_FONT, 14);
+		l1.setFont(f);
+		//l1.setForeground(Color.blue);
+		l1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); //pr centrer label
+		System.out.print(R1);
+		la4.setForeground(Color.red);
+		
+		p1.add(bt_nouveau);
+		p1.add(bt_quitter);
+		p1.setBackground(Color.cyan);
+
+		p2.add(l2);
+		p2.add(t);
+		p2.add(bt_tester);
+		p2.setBackground(Color.cyan);
+
+		bt_nouveau.addActionListener(this);
+		bt_quitter.addActionListener(this);
+		bt_tester.addActionListener(this);
+		bt.addActionListener(this);
+
+		c=this.getContentPane();
+		c.setLayout(new GridLayout(7,1));
+		c.add(l1);
+		c.add(p1);
+		c.add(separe);
+		c.add(p2);
+		c.add(l3);
+		c.add(la4);
+		this.setTitle("DEVINETTE");
+		this.setSize(400, 350);
+		this.setLocationRelativeTo(null); // pour centrer la fenetre 
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setContentPane(c);
+		c.setBackground(Color.CYAN);
+		this.setVisible(true);
+		
+	}
+	int cpt=0;
+
+	public void actionPerformed(ActionEvent arg0) {
+		
+		this.cpt++;
+		if (arg0.getSource()==bt_tester){
+			if(cpt<10)
+				la4.setText(" (*) c'est votre "+cpt+" éme essai");
+			else {
+				la4.setText(" (*) vous avez dépassé les 10 essais");
+				bt_tester.setEnabled(false);
+			}
+
+			int i=Integer.parseInt(t.getText());
+			if (i==R1) {
+				l3.setText(" Votre valeur est égale à la valeur cherchée");
+				l3.setForeground(Color.BLUE);
+				la4.setVisible(false);
+				c.add(bt);
+				bt.setVisible(true);
+			}
+			else if (i<R1) 
+				l3.setText(" Votre valeur est inférieur à la valeur cherchée");
+			else 
+				l3.setText(" Votre valeur est superieur à la valeur cherchée");
+
+		}
+
+		if (arg0.getSource()==bt_nouveau){
+			cpt=0;
+			R=(float) Math.random()*100;
+			R1=(int)R;
+			la4.setVisible(true);
+			bt_tester.setEnabled(true);
+			bt.setVisible(false);
+			System.out.print(R1);
+
+		}
+
+
+		if (arg0.getSource()==bt_quitter)
+			System.exit(0);
+
+		if (arg0.getSource()==bt){
+
+			JFrame f2= new JFrame("Bonus");
+			Container pan = new JPanel();
+			pan=f2.getContentPane();
+			JLabel lab = new JLabel();
+			ImageIcon img = new ImageIcon("c:/féli.jpg");
+			lab.setIcon(img);
+			lab.setBounds(70, 50, 900, 800);
+			JLabel lab2 = new JLabel("  Félicitation  ");
+			JLabel lab3 = new JLabel("Vous avez gagnés 10 points ");
+			Font f = new Font("nahla", Font.BOLD, 22);
+			Font f1 = new Font("nahla", Font.ROMAN_BASELINE, 16);
+			lab2.setFont(f);
+			lab3.setFont(f1);
+			lab2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+			lab3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+			lab2.setForeground(Color.magenta);
+			pan.add(lab);
+			pan.add(lab2,BorderLayout.NORTH);
+			pan.add(lab3,BorderLayout.SOUTH);
+			f2.setSize(350, 300);
+			f2.setLocationRelativeTo(null);
+			f2.setVisible(true);
+			pan.setBackground(Color.white);
+
+		}
+	}
+
+
+}
